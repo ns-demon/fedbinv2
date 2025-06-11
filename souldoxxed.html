@@ -171,14 +171,14 @@
   <div id="overlay" onclick="startSite()">Click to enter gateway</div>
 
   <main class="container" id="container">
-	  
     <p>souls dox: <a href="https://docs.google.com/document/d/1IjeSjbWQ4rf21sUVOuTzj7xih8vONOwqlsz0s5WbICU/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Google Docs Link</a></p>
 <br>
 <br>
     <p>Text Verison Of S0ul's Dox below for police and feds to arrest this guy</p>
     <br>
+<pre>	  
      <div class="dox-entry">
-   <h1>Credits: kev aka me</h1>
+   <h2>@Soul</h2>
 	   
 <p>					
  Reason: Known Pedophile  Wannabe Extorter
@@ -477,90 +477,60 @@ Password: v16z71w9c5b
 Connect: jut.su/baki/season-1/episode-1.html
 </p>
      </div>	
+</pre>	
 	
+<script>
+    // Overlay entrance logic
+    function startSite() {
+  document.getElementById("overlay").classList.add("hidden");
+  document.getElementById("container").classList.add("visible");
+  var audio = document.getElementById("backgroundAudio");
+  audio.play();
+}
 
-    <hr />
-  </div>
+    // Snowfall animation
+    const canvas = document.getElementById("snowCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let flakes = [];
 
-  <script>
-    // Load particles.js for snow effect with error debugging
-    document.addEventListener('DOMContentLoaded', () => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
-
-      script.onload = () => {
-        try {
-          particlesJS("snow", {
-            "particles": {
-              "number": {
-                "value": 80,
-                "density": {
-                  "enable": true,
-                  "value_area": 900
-                }
-              },
-              "color": {
-                "value": "#ffffff"
-              },
-              "opacity": {
-                "value": 0.8,
-                "random": true,
-                "anim": {
-                  "enable": true,
-                  "speed": 1,
-                  "opacity_min": 0.3,
-                  "sync": false
-                }
-              },
-              "size": {
-                "value": 4,
-                "random": true,
-                "anim": {
-                  "enable": true,
-                  "speed": 2,
-                  "size_min": 2,
-                  "sync": false
-                }
-              },
-              "line_linked": {
-                "enable": false
-              },
-              "move": {
-                "enable": true,
-                "speed": 2,
-                "direction": "bottom",
-                "random": true,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false
-              }
-            },
-            "interactivity": {
-              "events": {
-                "onhover": {
-                  "enable": false
-                },
-                "onclick": {
-                  "enable": true
-                },
-                "resize": true
-              }
-            },
-            "retina_detect": true
-          });
-        } catch(err) {
-          console.error('Particles.js init failed:', err);
+    function snow() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < flakes.length; i++) {
+        let flake = flakes[i];
+        flake.y += flake.speed;
+        flake.x += Math.sin(flake.y * 0.01);
+        if (flake.y > height) {
+          flakes[i] = { x: Math.random() * width, y: 0, speed: flake.speed };
         }
-      };
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+      }
+      requestAnimationFrame(snow);
+    }
 
-      script.onerror = () => {
-        console.error('Failed to load particles.js script.');
-      };
+    function initSnow() {
+      for (let i = 0; i < 150; i++) {
+        flakes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          speed: Math.random() * 2 + 0.5
+        });
+      }
+      snow();
+    }
 
-      document.head.appendChild(script);
+    initSnow();
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
   </script>
-
+  
   <script>
 			function detectDevTools() {
 				const devtools = /./;
@@ -578,6 +548,7 @@ Connect: jut.su/baki/season-1/episode-1.html
 		
 				return false;
 			}
-  </script>
+</script>
+
 </body>
 </html>
