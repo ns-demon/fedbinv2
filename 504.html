@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>504 Gateway Timeout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      height: 100%;
+      background: black;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      color: white;
+      position: relative;
+    }
+    @keyframes swing {
+      0%   { transform: translate(-50%, -50%) rotate(-10deg); }
+      25%  { transform: translate(-50%, -50%) rotate(10deg); }
+      50%  { transform: translate(-50%, -50%) rotate(-10deg); }
+      75%  { transform: translate(-50%, -50%) rotate(10deg); }
+      100% { transform: translate(-50%, -50%) rotate(-10deg); }
+    }
+    #girlOverlay {
+      pointer-events: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: url('https://cdn.glitch.global/fb63076f-43eb-4f27-91da-505d9eed6bd7/girl.png?v=1747441157624') no-repeat center center/contain;
+      opacity: 0.15;
+      z-index: 10;
+      mix-blend-mode: screen;
+      animation: swing 4s cubic-bezier(0.55, 0.05, 0.67, 0.99) infinite;
+      transform-origin: center top;
+    }
+    #snowCanvas {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 20;
+    }
+    .container {
+      max-width: 600px;
+      margin: 120px auto;
+      padding: 30px 25px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 18px;
+      box-shadow: 0 0 20px rgba(255, 0, 79, 0.7);
+      text-align: center;
+      z-index: 25;
+      position: relative;
+      animation: fadeIn 1s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      font-size: 3.4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #ff004f, #ff7300, #ff004f);
+      background-size: 200% 200%;
+      animation: rgbShift 5s linear infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    @keyframes rgbShift {
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #ff7300;
+    }
+    a.button {
+      display: inline-block;
+      padding: 14px 30px;
+      background: #ff004f;
+      color: white;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    a.button:hover {
+      background: #ff3366;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="girlOverlay"></div>
+  <canvas id="snowCanvas"></canvas>
+
+  <audio autoplay loop>
+    <source src="https://cdn.glitch.global/4402e127-3b6f-45ac-b427-784ea9ff7489/Ken%20Carson%20-%20overseas%20(Official%20Music%20Video).mp3?v=1747504087926" type="audio/mpeg" />
+  </audio>
+
+  <div class="container">
+    <h1>504 Gateway Timeout</h1>
+    <p>The server took too long to respond. Try again in a moment.</p>
+    <a class="button" href="/fedbinv2/index.html">Return Home</a>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("snowCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let snowflakes = [];
+
+    function createSnowflakes() {
+      for (let i = 0; i < 100; i++) {
+        snowflakes.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 4 + 1, d: Math.random() * 100 });
+      }
+    }
+
+    function drawSnowflakes() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      for (let f of snowflakes) {
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      }
+      ctx.fill();
+      moveSnowflakes();
+    }
+
+    let angle = 0;
+    function moveSnowflakes() {
+      angle += 0.01;
+      for (let f of snowflakes) {
+        f.y += Math.cos(angle + f.d) + 1 + f.r / 2;
+        f.x += Math.sin(angle) * 2;
+        if (f.y > height) f.y = 0;
+      }
+    }
+
+    createSnowflakes();
+    setInterval(drawSnowflakes, 33);
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
