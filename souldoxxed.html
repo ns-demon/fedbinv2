@@ -3,33 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <title>Soul Dox</title>
-  <style>
+   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body, html {
-      margin: 0; padding: 0; height: 100%;
+      height: 100%;
       background: black;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
-      color: #eee;
+      color: white;
+      position: relative;
     }
 
-    #backgroundBlur {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: black;
-      filter: blur(6px);
-      z-index: 1;
+    @keyframes swing {
+  0%   { transform: translate(-50%, -50%) rotate(-10deg); }
+  25%  { transform: translate(-50%, -50%) rotate(10deg); }
+  50%  { transform: translate(-50%, -50%) rotate(-10deg); }
+  75%  { transform: translate(-50%, -50%) rotate(10deg); }
+  100% { transform: translate(-50%, -50%) rotate(-10deg); }
+}
+
+#girlOverlay {
+  pointer-events: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: url('https://cdn.glitch.global/fb63076f-43eb-4f27-91da-505d9eed6bd7/girl.png?v=1747441157624') no-repeat center center/contain;
+  opacity: 0.15;
+  z-index: 10;
+  mix-blend-mode: screen;
+  animation: swing 4s cubic-bezier(0.55, 0.05, 0.67, 0.99) infinite;
+  transform-origin: center top;
+}
+
+
+    #snowCanvas {
       pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 20;
     }
 
-    #snow {
+    nav {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 5;
-      background: transparent;
+      top: 20px; right: 30px;
+      z-index: 30;
+      display: flex;
+      gap: 25px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      background: rgba(255 255 255 / 0.05);
+      padding: 10px 20px;
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      user-select: none;
     }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff004f;
+      transform: scale(1.15);
+    }
+
     #overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -50,78 +98,89 @@
     #overlay.hidden {
       opacity: 0;
       pointer-events: none;
-	    
     }
-    #container {
+
+    .container {
+      max-width: 600px;
+      margin: 120px auto 80px auto;
+      padding: 30px 25px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 18px;
+      box-shadow: 0 0 20px rgba(255, 0, 79, 0.7);
+      text-align: center;
+      color: white;
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 1s ease, transform 1s ease;
+      z-index: 25;
       position: relative;
-      z-index: 10;
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 20px;
-      background: rgba(0,0,0,0.4);
-      border-radius: 10px;
-      box-shadow: 0 0 15px #b22222aa;
-      text-align: left;
-      user-select: none;
-      transition: opacity 0.6s ease;
+    }
+
+    .container.visible {
       opacity: 1;
-      color: #eee;
+      transform: translateY(0);
     }
 
-    h3 {
-      color: #ff5555;
-      margin-bottom: 8px;
-    }
-    h6 {
-      color: #aaa;
-      margin-top: 0;
+    h1 {
+      font-size: 3.4rem;
+      font-weight: 700;
       margin-bottom: 20px;
-      font-weight: normal;
+      background: linear-gradient(90deg, #ff004f, #ff7300, #ff004f);
+      background-size: 200% 200%;
+      animation: rgbShift 5s linear infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.5;
-      margin-bottom: 20px;
+    @keyframes rgbShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    a {
-      color: #77aaff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+    .dox-entry {
+      margin-bottom: 30px;
+      text-align: left;
     }
 
-    hr {
-      border: none;
-      border-top: 1px solid #444;
-      margin: 30px 0;
+    .dox-entry h2 {
+      color: #ff004f;
+      margin-bottom: 10px;
     }
 
+    .dox-entry p {
+      color: #ff7300;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
+  <div id="girlOverlay"></div>
+  <canvas id="snowCanvas"></canvas>
 
-  <div id="backgroundBlur"></div>
-  <canvas id="snow"></canvas>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doxs.html">Doxs</a>
+  </nav>
 
-  <div id="container">
-    <h3>Number. 1,</h3>
-	  
   <audio id="backgroundAudio" loop>
   <source src="https://cdn.glitch.global/4402e127-3b6f-45ac-b427-784ea9ff7489/real_demon.mp3?v=1747511459391" type="audio/mpeg">
 </audio>
-	   <div id="overlay" onclick="startSite()">Click to enter gateway</div>
 
+
+  <div id="overlay" onclick="startSite()">Click to enter gateway</div>
+
+  <main class="container" id="container">
+	  
     <p>souls dox: <a href="https://docs.google.com/document/d/1IjeSjbWQ4rf21sUVOuTzj7xih8vONOwqlsz0s5WbICU/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Google Docs Link</a></p>
 <br>
 <br>
     <p>Text Verison Of S0ul's Dox below for police and feds to arrest this guy</p>
     <br>
     <h6>.</h6>
-   <pre><b><h4> Credits: kev aka me
-								
+   <pre> <b> <h4> Credits: kev aka me </h4>
+	   
+<b> <strong> <pre> <p>						
  Reason: Known Pedophile  Wannabe Extorter
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -416,7 +475,9 @@ Connect: www.minecraft.net/en-us/login
 Email: themaxkemper@gmail.com
 Password: v16z71w9c5b
 Connect: jut.su/baki/season-1/episode-1.html
-  </h4></b></pre> 
+<b> <strong> </pre> </p>
+<b> <strong>< <h6>fuck you soul your getting swatted</h6> </strong> </b>	   
+</h4></b></pre> 
 
     <hr />
   </div>
